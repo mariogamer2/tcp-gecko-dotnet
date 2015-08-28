@@ -5198,7 +5198,10 @@ namespace GeckoApp
                     case 400:
                     case 410:
                         OSSuspendThread = 0x0103CB18;
-                        break;                        
+                        break;   
+                    case 532:
+		        OSSuspendThread = 0x010424dc;
+                        break;  
                     default:
                         MessageBox.Show("Unsupported Wii U OS version.", "Version mismatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -5228,6 +5231,9 @@ namespace GeckoApp
                     case 410:
                         OSResumeThread = 0x0103BFEC;
                         break;
+                    case 532:
+			OSResumeThread = 0x010419b0;
+			break;
                     default:
                         MessageBox.Show("Unsupported Wii U OS version.", "Version mismatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
