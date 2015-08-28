@@ -481,6 +481,10 @@ namespace GeckoApp
                             title_type = gecko.peek(0x10013010);
                             title_id = gecko.peek(0x10013014);
                             break;
+                        case 532:
+							title_type = gecko.peek(0x100136D0);
+                            title_id = gecko.peek(0x100136D4);
+							break;
                         default:
                             title_type = 0;
                             title_id = 0;
