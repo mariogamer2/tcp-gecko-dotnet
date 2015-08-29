@@ -482,9 +482,9 @@ namespace GeckoApp
                             title_id = gecko.peek(0x10013014);
                             break;
                         case 532:
-							title_type = gecko.peek(0x100136D0);
+			    title_type = gecko.peek(0x100136D0);
                             title_id = gecko.peek(0x100136D4);
-							break;
+			    break;
                         default:
                             title_type = 0;
                             title_id = 0;
@@ -564,42 +564,19 @@ namespace GeckoApp
             ThreadGridView.Rows.Clear();
             ThreadDisplayComboBox.Items.Clear();
 
-            uint tempThreadAddress = 0;
+            uint tempThreadAddress = gecko.peek(0xffffffe0);
             uint temp;
-            if (os_ver == 410)
-            {
-                tempThreadAddress = 0x10032E18;
-                while ((temp = gecko.peek(tempThreadAddress + 0x390)) != 0)
-                {
-                    tempThreadAddress = temp;
-                }
- 
-            }
-            else if (os_ver == 532)
-            {
-                tempThreadAddress = 0x10044BF8;
-            }
-            else
-            {
-                //TODO
-                //throw new NotImplementedException();
-            }
-
-            if(tempThreadAddress != 0)
-            {
-                
-
- 
-
-                while ((temp = gecko.peek(tempThreadAddress + 0x38C)) != 0)
-                {
-                    AddThread(tempThreadAddress);
-                    tempThreadAddress = temp;
-                }
-
-                //The above while is nice, but would skip the last thread.
-                AddThread(tempThreadAddress);
-            }
+            while ((temp = gecko.peek(tempThreadAddress + 0x390)) != 0)
+			{
+				tempThreadAddress = temp;
+			}
+			while ((temp = gecko.peek(tempThreadAddress + 0x38C)) != 0)
+			{
+			AddThread(tempThreadAddress);
+			tempThreadAddress = temp;
+			}
+			// The above while is nice, but would skip the last thread.
+			AddThread(tempThreadAddress);
             
 
             
