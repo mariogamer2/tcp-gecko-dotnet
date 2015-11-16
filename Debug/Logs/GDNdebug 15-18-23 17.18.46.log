@@ -1,0 +1,31 @@
+
+
+2015-08-23 17:18:46: Opened log
+17:18:46: Exception occured!
+Message: Une exception de type 'TCPTCPGecko.ETCPGeckoException' a été levée.
+Stack Trace: 
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream[] saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 522
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 492
+   à GeckoApp.Disassembly.Disassemble(UInt32 address, Int32 commands) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\disassembly.cs:ligne 247
+Inner Exception: 
+17:19:01: Exception occured!
+Message: Une exception de type 'TCPTCPGecko.ETCPGeckoException' a été levée.
+Stack Trace: 
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream[] saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 522
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 492
+   à GeckoApp.Disassembly.Disassemble(UInt32 address, Int32 commands) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\disassembly.cs:ligne 247
+Inner Exception: 
+17:19:05: Exception occured!
+Message: Une exception de type 'TCPTCPGecko.ETCPGeckoException' a été levée.
+Stack Trace: 
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream[] saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 522
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 492
+   à GeckoApp.Disassembly.Disassemble(UInt32 address, Int32 commands) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\disassembly.cs:ligne 247
+Inner Exception: 
+17:21:21: Exception occured!
+Message: Une exception de type 'TCPTCPGecko.ETCPGeckoException' a été levée.
+Stack Trace: 
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream[] saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 522
+   à TCPTCPGecko.TCPGecko.Dump(UInt32 startdump, UInt32 enddump, Stream saveStream) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\TCPGecko.cs:ligne 492
+   à GeckoApp.MemoryViewer.Update(Boolean fast) dans c:\Users\ALEX\Desktop\CD\tcp-gecko-dotnet-master\Gecko dNet\MemViewer.cs:ligne 136
+Inner Exception: 
