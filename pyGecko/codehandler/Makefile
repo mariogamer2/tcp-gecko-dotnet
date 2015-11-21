@@ -1,63 +1,63 @@
-CC=powerpc-eabi-gcc
-CFLAGS=-nostdinc -fno-builtin -c
-LD=powerpc-eabi-ld
-LDFLAGS=-Ttext 1800000 --oformat binary
-project	:=	src
-root:=.
-build	:=	 $(root)/bin
-libs := $(root)/../../libwiiu/bin
-www :=$(root)/../../www
-framework:=$(root)/../../framework
-all: setup main532 main500 main410 main400 main310 main300 main210 main200
-setup:
-	mkdir -p $(root)/bin/
-main532:
-	$(CC) $(CFLAGS) -DVER=532 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code532.bin $(build)/loader.o $(libs)/532/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main500:
-	$(CC) $(CFLAGS) -DVER=500 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code500.bin $(build)/loader.o $(libs)/500/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main410:
-	$(CC) $(CFLAGS) -DVER=410 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code410.bin $(build)/loader.o $(libs)/410/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main400:
-	$(CC) $(CFLAGS) -DVER=400 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code400.bin $(build)/loader.o $(libs)/400/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main310:
-	$(CC) $(CFLAGS) -DVER=310 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code310.bin $(build)/loader.o $(libs)/310/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main300:
-	$(CC) $(CFLAGS) -DVER=300 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code300.bin $(build)/loader.o $(libs)/300/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main210:
-	$(CC) $(CFLAGS) -DVER=210 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code210.bin $(build)/loader.o $(libs)/210/*.o `find $(build) -name "*.o" ! -name "loader.o"`
-main200:
-	$(CC) $(CFLAGS) -DVER=200 $(project)/*.c
-	#-Wa,-a,-ad
-	cp -r $(root)/*.o $(build)
-	rm $(root)/*.o
-	$(LD) $(LDFLAGS) -o $(build)/code200.bin $(build)/loader.o $(libs)/200/*.o `find $(build) -name "*.o" ! -name "loader.o"`
+
+PATH := $(DEVKITPPC)/bin:$(PATH)
+
+PREFIX ?= powerpc-eabi-
+LD := $(PREFIX)ld
+AS := $(PREFIX)as
+CC := $(PREFIX)gcc
+OBJDUMP ?= $(PREFIX)objdump
+OBJCOPY ?= $(PREFIX)objcopy
+
+SFLAGS := -mgekko -mregnames
+
+# -O2: optimise lots
+# -Wall: generate lots of warnings
+# -x c: compile as C code
+# -std=gnu99: use the C99 standard with GNU extensions
+# -ffreestanding: we don't have libc; don't expect we do
+# -mrvl: enable wii/gamecube compilation
+# -mcpu=750: enable processor specific compilation
+# -meabi: enable eabi specific compilation
+# -mhard-float: enable hardware floating point instructions
+# -fshort-wchar: use 16 bit whcar_t type in keeping with Wii executables
+# -msdata-none: do not use r2 or r13 as small data areas
+# -memb: enable embedded application specific compilation
+# -ffunction-sections: split up functions so linker can garbage collect
+# -fdata-sections: split up data so linker can garbage collect
+CFLAGS := -O2 -Wall -x c -std=gnu99 \
+          -ffreestanding \
+          -mrvl -mcpu=750 -meabi -mhard-float -fshort-wchar \
+          -msdata=none -memb -ffunction-sections -fdata-sections \
+          -Wno-unknown-pragmas -Wno-strict-aliasing
+
+SRC := $(wildcard *.S) $(wildcard *.c)
+OBJ := $(patsubst %.S,build/%.o,$(patsubst %.c,build/%.o,$(SRC)))
+
+# Simulate an order only dependency
+BUILD_REQ := $(filter-out $(wildcard build),build)
+BIN_REQ := $(filter-out $(wildcard bin),bin)
+
+all: bin/codehandler310.h bin/codehandler410.h bin/codehandler500.h bin/codehandler532.h bin/codehandler550.h
+
+bin/codehandler%.h: build/codehandler%.text.bin $(BIN_REQ)
+	xxd -i $< | sed "s/unsigned/static const unsigned/g;s/ler$*/ler/g;s/build_//g" > $@
+
+build/codehandler%.text.bin: build/codehandler%.elf $(BUILD_REQ)
+	$(OBJCOPY) -j .text -O binary $< $@
+
+build/codehandler%.elf: codehandler%.ld $(OBJ) $(BUILD_REQ)
+	$(LD) -T $< $(OBJ)
+
+build/%.o: %.c $(BUILD_REQ)
+	$(CC) -c $(CFLAGS) -o $@ $<
+build/%.o: %.S $(BUILD_REQ)
+	$(AS) $(SFLAGS) -o $@ $<
+
+bin:
+	mkdir $@
+build:
+	mkdir $@
+
 clean:
-	rm -r $(build)/*
+	rm -rf $(wildcard build) $(wildcard bin)
+
